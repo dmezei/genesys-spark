@@ -151,6 +151,15 @@ webappPipelineV2 {
                         failures.add('Publish Components')
                     }
 
+                    def mcpStatCode = sh(script: "npm publish --workspace=packages/genesys-spark-mcp-server ${publishOptions}",
+                        label: 'Publish MCP Server',
+                        returnStatus: true
+                        )
+
+                    if (mcpStatCode > 0) {
+                        failures.add('MCP Server')
+                    }
+
                     def chartStatCode = sh(script: "npm publish --workspace=packages/genesys-spark-chart-components ${publishOptions}",
                         label: 'Publish Chart Components',
                         returnStatus: true
